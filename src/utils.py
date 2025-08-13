@@ -27,10 +27,10 @@ def handle_missing_values(df: pd.DataFrame) -> pd.DataFrame:
     cat_cols = df.select_dtypes(include=['object']).columns.tolist()
 
     for col in num_cols:
-        df[col].fillna(df[col].mean(), inplace=True)
+        df[col] = df[col].fillna(df[col].mean())
 
     for col in cat_cols:
-        df[col].fillna(df[col].mode()[0], inplace=True)
+        df[col] = df[col].fillna(df[col].mode()[0])
 
     return df
 
