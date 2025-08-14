@@ -59,5 +59,5 @@ async def diagnose(patient: PatientData):
         **DIAGNOSIS_LABELS[int(prediction)]
     )
 
-# Sample request:
+# Cara menjalankan uvicorn app:app --reload
 
