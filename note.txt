@@ -1,0 +1,2 @@
+
+ source ~/.virtualenvs/streamlit_env/bin/activate
