@@ -1,2 +1,26 @@
 
+ # cara menjalankan  virtual env 
  source ~/.virtualenvs/streamlit_env/bin/activate
+
+ # cara menjalankan api 
+ uvicorn app:app --reload
+
+
+| Parameter  | Tipe Data | Deskripsi                                                                                                                     | Rentang Nilai Valid        | Contoh Nilai |
+| ---------- | --------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------ |
+| `age`      | integer   | Usia pasien dalam tahun.                                                                                                      | 29 – 77                    | 63           |
+| `sex`      | integer   | Jenis kelamin (1 = laki-laki, 0 = perempuan).                                                                                 | 0 atau 1                   | 1            |
+| `dataset`  | integer   | Penanda asal dataset / sumber data (tergantung implementasi model).                                                           | 0 – 3 (tergantung mapping) | 0            |
+| `cp`       | integer   | Tipe nyeri dada (*chest pain type*):<br>0 = typical angina<br>1 = atypical angina<br>2 = non-anginal pain<br>3 = asymptomatic | 0 – 3                      | 3            |
+| `trestbps` | integer   | Tekanan darah saat istirahat (mm Hg).                                                                                         | 94 – 200                   | 145          |
+| `chol`     | integer   | Kadar kolesterol serum (mg/dl).                                                                                               | 126 – 564                  | 233          |
+| `fbs`      | integer   | Gula darah puasa > 120 mg/dl? (1 = ya, 0 = tidak).                                                                            | 0 atau 1                   | 1            |
+| `restecg`  | integer   | Hasil elektrokardiografi istirahat:<br>0 = normal<br>1 = ST-T abnormal<br>2 = left ventricular hypertrophy                    | 0 – 2                      | 0            |
+| `thalch`   | integer   | Detak jantung maksimum yang tercapai.                                                                                         | 71 – 202                   | 150          |
+| `exang`    | integer   | Nyeri dada akibat olahraga (*exercise induced angina*).                                                                       | 0 atau 1                   | 0            |
+| `oldpeak`  | float     | Depresi segmen ST relatif terhadap istirahat.                                                                                 | 0.0 – 6.2                  | 2.3          |
+| `slope`    | integer   | Kemiringan segmen ST saat puncak latihan:<br>0 = upsloping<br>1 = flat<br>2 = downsloping                                     | 0 – 2                      | 0            |
+| `ca`       | integer   | Jumlah pembuluh darah utama yang terlihat pada fluoroskopi.                                                                   | 0 – 3                      | 0            |
+| `thal`     | integer   | Status thalassemia:<br>1 = fixed defect<br>2 = normal<br>3 = reversible defect                                                | 1 – 3                      | 1            |
+
+---
