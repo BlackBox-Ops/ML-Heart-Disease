@@ -12,8 +12,7 @@
         "oldpeak": 1.2,
         "slope": 2,
         "ca": 0,
-        "thal": 3,
-        "dataset": 1
+        "thal": 3
     },
     {
         "age": 60,
@@ -28,7 +27,6 @@
         "oldpeak": 2.3,
         "slope": 1,
         "ca": 1,
-        "thal": 2,
-        "dataset": 2
+        "thal": 2
     }
 ]

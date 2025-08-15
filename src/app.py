@@ -12,7 +12,7 @@ model = joblib.load(MODEL_PATH)
 
 # Required feature columns
 FEATURE_COLUMNS = [
-    'age', 'sex', 'dataset', 'cp', 'trestbps', 'chol', 'fbs',
+    'age', 'sex','cp', 'trestbps', 'chol', 'fbs',
     'restecg', 'thalch', 'exang', 'oldpeak', 'slope', 'ca', 'thal'
 ]
 
