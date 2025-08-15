@@ -1,3 +1,3 @@
-age,trestbps,chol,thalch,oldpeak,ca,sex,dataset,cp,restecg,slope,thal,fbs,exang,prediction,probability
-54,140,239,160,1.2,0,1,1,0,1,2,3,0,0,0,0.26538077504216756
-60,130,250,150,2.3,1,0,2,2,0,1,2,1,1,1,0.609924038603565
+age,trestbps,chol,thalch,oldpeak,ca,sex,cp,restecg,slope,thal,fbs,exang,prediction,probability
+54,140,239,160,1.2,0,1,0,1,2,3,0,0,0,0.24423260734405272
+60,130,250,150,2.3,1,0,2,0,1,2,1,1,1,0.6208840004466499

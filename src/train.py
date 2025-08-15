@@ -16,7 +16,7 @@ import joblib # type: ignore
 from xgboost import XGBClassifier # type: ignore
 
 # === 1. Load dataset ===
-df = pd.read_csv("../data/processed/heart_disease_cleaned.csv")
+df = pd.read_csv("../data/processed/heart_disease_uci_cleaned.csv")
 
 # Pisahkan fitur & target
 X = df.drop(columns=["num"])
@@ -54,10 +54,10 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 # Simpan split data mentah (opsional)
 # os.makedirs("../data/processed", exist_ok=True)
-# X_train.to_csv("../data/processed/X_train_raw.csv", index=False)
-# X_test.to_csv("../data/processed/X_test_raw.csv", index=False)
-# y_train.to_csv("../data/processed/y_train.csv", index=False)
-# y_test.to_csv("../data/processed/y_test.csv", index=False)
+# X_train.to_csv("../data/train-data/X_train_raw.csv", index=False)
+X_test.to_csv("../data/test-data/X_test_raw.csv", index=False)
+# y_train.to_csv("../data/train-data/y_train.csv", index=False)
+# y_test.to_csv("../data/test-data/y_test.csv", index=False)
 
 # === 4. Definisikan pipelines lengkap (preprocessing + model) ===
 # === 4. Pipelines lengkap ===
