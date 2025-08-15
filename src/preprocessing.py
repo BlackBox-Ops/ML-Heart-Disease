@@ -28,7 +28,7 @@ df.replace("?", np.nan, inplace=True)
 
 # Kolom numerik & kategorikal
 numerical_cols = ["age", "trestbps", "chol", "thalch", "oldpeak"]
-categorical_cols = ["sex", "dataset", "cp", "fbs", "restecg", "exang", "slope", "ca", "thal"]
+categorical_cols = ["sex", "cp", "fbs", "restecg", "exang", "slope", "ca", "thal"]
 
 # Konversi kolom numerik ke float
 for col in numerical_cols:
@@ -49,12 +49,10 @@ X, y = preprocess_entire_datasheet(df, target_col="num")
 # ---------------------------
 # 4. Pisahkan X & y
 # ---------------------------
-X = df.drop(columns=["num"])
+drop_cols = ["num", "dataset","id"]
+X = df.drop(columns=[col for col in drop_cols if col in df.columns])
 y = df["num"]
 
-# Hapus kolom 'id' jika ada
-if "id" in X.columns:
-    X.drop(columns=["id"], inplace=True)
 
 # Update daftar kolom
 numerical_cols = [col for col in numerical_cols if col in X.columns]
@@ -68,6 +66,8 @@ X_train, X_test, y_train, y_test = train_test_split(
     )
 
 output_dir="../data/processed"
+output_test_data="../data/test-data"
+output_train_data="../data/train-data"
 
 """Simpan X dan y ke folder output_dir"""
 os.makedirs(output_dir, exist_ok=True)  # Buat folder jika belum ada
@@ -79,12 +79,12 @@ X.to_csv(X_path, index=False)
 y.to_csv(y_path, index=False)
 
 # Simpan masing-masing
-X_train.to_csv(os.path.join(output_dir, "X_train.csv"), index=False)
-X_test.to_csv(os.path.join(output_dir, "X_test.csv"), index=False)
-y_train.to_csv(os.path.join(output_dir, "y_train.csv"), index=False)
-y_test.to_csv(os.path.join(output_dir, "y_test.csv"), index=False)
+X_train.to_csv(os.path.join(output_train_data, "X_train.csv"), index=False)
+X_test.to_csv(os.path.join(output_test_data, "X_test.csv"), index=False)
+y_train.to_csv(os.path.join(output_train_data, "y_train.csv"), index=False)
+y_test.to_csv(os.path.join(output_test_data, "y_test.csv"), index=False)
 
-print(f"Data split dan disimpan di {output_dir}")
+print(f"Data split dan disimpan di {output_dir}, {output_train_data}, {output_test_data}")
 
 
 
