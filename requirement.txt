@@ -9,3 +9,5 @@ seaborn>=0.9.0
 fastapi>=0.100.0
 flask>=2.3.0
 sqlalchemy>=2.0.0
+skl2onnx onnxruntime
+
