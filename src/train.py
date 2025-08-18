@@ -55,7 +55,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # Simpan split data mentah (opsional)
 # os.makedirs("../data/processed", exist_ok=True)
 # X_train.to_csv("../data/train-data/X_train_raw.csv", index=False)
-X_test.to_csv("../data/test-data/X_test_raw.csv", index=False)
+# X_test.to_csv("../data/test-data/X_test_raw.csv", index=False)
 # y_train.to_csv("../data/train-data/y_train.csv", index=False)
 # y_test.to_csv("../data/test-data/y_test.csv", index=False)
 
@@ -137,6 +137,6 @@ for name, model in best_models.items():
     print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
 
     # Simpan pipeline lengkap
-    model_path = os.path.join("../models", f"{name.lower()}_best_pipeline.joblib")
+    model_path = os.path.join("../models/python-models", f"{name.lower()}_best_pipeline.joblib")
     joblib.dump(model, model_path)
     print(f"Model pipeline lengkap disimpan ke {model_path}")
