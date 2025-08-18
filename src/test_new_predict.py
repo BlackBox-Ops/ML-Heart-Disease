@@ -3,7 +3,7 @@ import pandas as pd # type: ignore
 import json
 import os
 
-model = joblib.load(os.path.join("../models", "svc_best_pipeline.joblib"))
+model = joblib.load(os.path.join("../models", "logisticregression_best_pipeline.joblib"))
 
 with open("../data/raw/sample_test_data.json", "r") as f:
     df_new = pd.DataFrame(json.load(f))
