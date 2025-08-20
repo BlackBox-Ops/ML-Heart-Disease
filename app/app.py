@@ -16,3 +16,19 @@ FEATURE_NAMES = [
 
 # --- Utils kecil ---
 _model = None
+
+def get_model():
+    global _model
+    if _model is None:
+        if not os.path.exists(MODEL_PATH):
+            raise FileExistsError(f"Model file not found at: {MODEL_PATH}")
+        _model = joblib.load(MODEL_PATH)
+    return _model
+
+def ensure_feature_order(payload: dict):
+    """
+    Mengembalikan list nilai fitur dalam urutan FEATURE_NAMES.
+    - Memaksa nilai numeric (float/int).
+    - Melempar ValueError bila fitur hilang atau tidak numeric.
+    """
+    pass
