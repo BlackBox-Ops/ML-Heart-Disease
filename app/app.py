@@ -19,6 +19,7 @@ FEATURE_NAMES = [
     "thalch","exang","oldpeak","slope","ca","thal"
 ]
 
+
 # ============================================================
 # DOMAIN MODEL (Single Responsibility: validasi data input)
 # ============================================================
