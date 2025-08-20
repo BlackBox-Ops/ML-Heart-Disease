@@ -1,58 +1,74 @@
 # app.py
-from flask import Flask, request, jsonify, render_template  # type: ignore
-from flask_cors import CORS                                 # type: ignore
+from flask import Flask, request, jsonify, render_template          # type: ignore
+from flask_cors import CORS                                         # type: ignore
+from pydantic import BaseModel, conint, confloat, ValidationError   # type: ignore
+import pandas as pd                                                 # type: ignore
+import joblib                                                       # type: ignore
 import os
-import joblib                                               # type: ignore 
-import pandas as pd                                         # type: ignore 
 
-# --- Konfigurasi ---
+# ============================================================
+# CONFIGURATION (Open/Closed Principle: bisa dikembangkan via env var)
+# ============================================================
 MODEL_PATH = os.getenv(
     "MODEL_PATH",
     os.path.join(os.path.dirname(__file__), "models", "logisticregression_best_pipeline.joblib")
 )
 
-# Urutan fitur sesuai sample JSON
 FEATURE_NAMES = [
     "age","sex","cp","trestbps","chol","fbs","restecg",
     "thalch","exang","oldpeak","slope","ca","thal"
 ]
 
-# --- Utils kecil ---
-_model = None
+# ============================================================
+# DOMAIN MODEL (Single Responsibility: validasi data input)
+# ============================================================
+class HeartInput(BaseModel):
+    age: conint(ge=18, le=100)              # type: ignore
+    sex: conint(ge=0, le=1)                 # type: ignore
+    cp: conint(ge=0, le=3)                  # type: ignore
+    trestbps: conint(ge=80, le=200)         # type: ignore
+    chol: conint(ge=100, le=600)            # type: ignore
+    fbs: conint(ge=0, le=1)                 # type: ignore
+    restecg: conint(ge=0, le=2)             # type: ignore
+    thalch: conint(ge=60, le=220)           # type: ignore
+    exang: conint(ge=0, le=1)               # type: ignore
+    oldpeak: confloat(ge=0, le=6)           # type: ignore
+    slope: conint(ge=0, le=2)               # type: ignore
+    ca: conint(ge=0, le=4)                  # type: ignore
+    thal: conint(ge=0, le=3)                # type: ignore
 
-def get_model():
-    """Load model hanya sekali."""
-    global _model
-    if _model is None:
-        if not os.path.exists(MODEL_PATH):
-            raise FileNotFoundError(f"Model file not found at: {MODEL_PATH}")
-        _model = joblib.load(MODEL_PATH)
-    return _model
+# ============================================================
+# SERVICE LAYER (Dependency Inversion: controller bergantung ke service)
+# ============================================================
+class HeartModelService:
+    """Service untuk load model & prediksi"""
+    def __init__(self, model_path: str):
+        self._model_path = model_path
+        self._model = None
 
-def ensure_feature_order(payload: dict):
-    """
-    Mengembalikan list nilai fitur dalam urutan FEATURE_NAMES.
-    - Memaksa numeric (float/int).
-    - Raise ValueError bila ada fitur hilang/tidak numeric.
-    """
-    ordered = []
-    for key in FEATURE_NAMES:
-        if key not in payload:
-            raise ValueError(f"Missing required feature: {key}")
-        val = payload[key]
-        try:
-            if isinstance(val, str) and val.strip() == "":
-                raise ValueError(f"Empty value for feature: {key}")
-            f = float(val)
-            if f.is_integer():
-                ordered.append(int(f))
-            else:
-                ordered.append(f)
-        except Exception:
-            raise ValueError(f"Invalid value for feature '{key}': {val} (must be numeric)")
-    return ordered
+    def load(self):
+        if self._model is None:
+            if not os.path.exists(self._model_path):
+                raise FileNotFoundError(f"Model file not found: {self._model_path}")
+            self._model = joblib.load(self._model_path)
+        return self._model
 
-# --- Flask app ---
+    def predict(self, inputs: list[HeartInput]):
+        """Menerima list HeartInput, return prediksi & probabilitas"""
+        df = pd.DataFrame([inp.dict() for inp in inputs], columns=FEATURE_NAMES)
+        df = df.apply(pd.to_numeric, errors="coerce")
+
+        model = self.load()
+        preds = model.predict(df).tolist()
+        probas = model.predict_proba(df).tolist() if hasattr(model, "predict_proba") else None
+        return preds, probas
+
+# Dependency injection
+model_service = HeartModelService(MODEL_PATH)
+
+# ============================================================
+# CONTROLLER / FLASK ROUTES (Interface Segregation: pisah endpoint API & UI)
+# ============================================================
 app = Flask(__name__)
 CORS(app)
 
@@ -63,27 +79,18 @@ def health():
 @app.route("/api/metadata", methods=["GET"])
 def metadata():
     try:
-        model = get_model()
+        model = model_service.load()
         model_name = type(model).__name__
         classes = getattr(model, "classes_", None)
         if classes is not None:
-            try:
-                classes = [int(c) if hasattr(c, "__int__") else c for c in classes]
-            except Exception:
-                pass
+            classes = [int(c) if hasattr(c, "__int__") else c for c in classes]
     except Exception:
-        model_name = None
-        classes = None
+        model_name, classes = None, None
 
     return jsonify(model=model_name, features=FEATURE_NAMES, classes=classes)
 
 @app.route("/api/predict", methods=["POST"])
 def api_predict():
-    try:
-        model = get_model()
-    except FileNotFoundError as e:
-        return jsonify(error=str(e)), 500
-
     data = request.get_json(silent=True)
     if data is None:
         return jsonify(error="Invalid or missing JSON body"), 400
@@ -91,29 +98,21 @@ def api_predict():
     records = data if isinstance(data, list) else [data]
 
     try:
-        rows = [ensure_feature_order(r) for r in records]
-    except ValueError as e:
-        return jsonify(error=str(e)), 400
-
-    # Pandas DataFrame sesuai FEATURE_NAMES
-    X = pd.DataFrame(rows, columns=FEATURE_NAMES)
-    X = X.apply(pd.to_numeric, errors="coerce")
+        inputs = [HeartInput(**rec) for rec in records]
+    except ValidationError as e:
+        return jsonify(error=e.errors()), 400
 
     try:
-        preds = model.predict(X).tolist()
+        preds, probas = model_service.predict(inputs)
     except Exception as e:
         return jsonify(error=f"Model prediction failed: {e}"), 500
 
     response = {"predictions": preds}
-    if hasattr(model, "predict_proba"):
-        try:
-            response["probabilities"] = model.predict_proba(X).tolist()
-        except Exception:
-            pass
-
+    if probas is not None:
+        response["probabilities"] = probas
     return jsonify(response)
 
-# ---- HTML form ----
+# ---- HTML Form ----
 @app.route("/", methods=["GET"])
 def form():
     options = {
@@ -130,40 +129,33 @@ def form():
 
 @app.route("/predict-form", methods=["POST"])
 def predict_form():
-    try:
-        model = get_model()
-    except FileNotFoundError as e:
-        return render_template("result.html", error=str(e), form_data={})
-
-    form_data = {k: request.form.get(k, "") for k in FEATURE_NAMES}
+    form_data = {k: request.form.get(k, None) for k in FEATURE_NAMES}
 
     try:
-        row = ensure_feature_order(form_data)
-    except ValueError as e:
-        return render_template("result.html", error=str(e),
-                            form_data=form_data, feature_names=FEATURE_NAMES)
-
-    X = pd.DataFrame([row], columns=FEATURE_NAMES)
-    X = X.apply(pd.to_numeric, errors="coerce")
+        input_obj = HeartInput(**form_data)
+    except ValidationError as e:
+        return render_template("result.html",
+                            error=e.errors(),
+                            form_data=form_data,
+                            feature_names=FEATURE_NAMES)
 
     try:
-        pred = model.predict(X).tolist()[0]
+        preds, probas = model_service.predict([input_obj])
     except Exception as e:
         return render_template("result.html",
                             error=f"Model prediction failed: {e}",
-                            form_data=form_data, feature_names=FEATURE_NAMES)
-
-    proba = None
-    if hasattr(model, "predict_proba"):
-        try:
-            proba = model.predict_proba(X).tolist()[0]
-        except Exception:
-            pass
+                            form_data=form_data,
+                            feature_names=FEATURE_NAMES)
 
     return render_template("result.html",
-                        prediction=pred, proba=proba,
-                        form_data=form_data, feature_names=FEATURE_NAMES)
+                        prediction=preds[0],
+                        proba=probas[0] if probas else None,
+                        form_data=form_data,
+                        feature_names=FEATURE_NAMES)
 
+# ============================================================
+# ENTRY POINT
+# ============================================================
 if __name__ == "__main__":
     host = os.getenv("HOST", "0.0.0.0")
     port = int(os.getenv("PORT", 5000))
