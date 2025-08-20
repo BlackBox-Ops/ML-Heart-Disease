@@ -32,3 +32,30 @@ def ensure_feature_order(payload: dict):
     - Melempar ValueError bila fitur hilang atau tidak numeric.
     """
     pass
+
+# -- Flask App --
+app = Flask(__name__)
+CORS(app)
+
+@app.route("/health", methods=["GET"])
+def health():
+    pass
+
+@app.route("/api/metadata", methods=["GET"])
+def metadata():
+    pass
+
+@app.route("/api/predict", methods=["POST"])
+def predict():
+    pass
+
+# ---- HTML form (simple) ----
+# Note: this requires templates/form.html and templates/result.html
+@app.route("/", methods=["GET"])
+def form():
+    pass
+
+@app.route("/predict-form", methods=["POST"])
+def predict_form():
+    pass
+
