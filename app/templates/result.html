@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Prediction Result</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #0b0f14; color: #e5e7eb; }
+        .container { max-width: 800px; margin: 0 auto; padding: 24px; }
+        h1 { margin-bottom: 20px; }
+        .error { background:#7f1d1d; padding: 12px; border-radius: 6px; }
+        .result { background:#0b3d2e; padding: 12px; border-radius: 6px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        th, td { border: 1px solid #374151; padding: 8px; text-align: left; }
+        a { color: #93c5fd; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Prediction Result</h1>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% else %}
+        <div class="result">
+        <p><strong>Prediction:</strong> {{ prediction }}</p>
+        {% if proba %}
+            <p><strong>Probabilities:</strong> {{ proba }}</p>
+        {% endif %}
+        </div>
+        <h2>Input Values</h2>
+        <table>
+        <thead>
+            <tr><th>Feature</th><th>Value</th></tr>
+        </thead>
+        <tbody>
+            {% for k in feature_names %}
+            <tr><td>{{ k }}</td><td>{{ form_data[k] }}</td></tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    {% endif %}
+
+    <p><a href="{{ url_for('form') }}">← Back to form</a></p>
+</div>
+</body>
+</html>

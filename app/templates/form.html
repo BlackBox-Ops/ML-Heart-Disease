@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Heart Prediction - Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #0b0f14; color: #e5e7eb; }
+        .container { max-width: 800px; margin: 0 auto; padding: 24px; }
+        h1 { margin-bottom: 20px; }
+        form { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        label { margin-bottom: 4px; color: #9ca3af; }
+        input, select { padding: 8px; border-radius: 6px; border: 1px solid #374151; background:#111827; color:#e5e7eb; }
+        .actions { grid-column: 1 / -1; display: flex; gap: 12px; margin-top: 12px; }
+        button { padding: 10px 16px; border: none; border-radius: 999px; cursor: pointer; }
+        button[type="submit"] { background: #22c55e; color:white; }
+        button[type="reset"] { background: #f59e0b; color:white; }
+        details { grid-column: 1 / -1; margin-top: 16px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Heart Disease Prediction</h1>
+    <form action="{{ url_for('predict_form') }}" method="post">
+        {% for name in feature_names %}
+        <div>
+            <label for="{{ name }}">{{ name }}</label>
+            {% if name in options %}
+            <select name="{{ name }}" id="{{ name }}">
+                {% for opt in options[name] %}
+                <option value="{{ opt }}">{{ opt }}</option>
+                {% endfor %}
+            </select>
+            {% else %}
+            <input type="number" step="any" id="{{ name }}" name="{{ name }}" required />
+            {% endif %}
+        </div>
+        {% endfor %}
+        <div class="actions">
+        <button type="submit">Predict</button>
+        <button type="reset">Reset</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
