@@ -3,7 +3,7 @@
  source ~/.virtualenvs/streamlit_env/bin/activate
 
  # cara menjalankan api 
- uvicorn app:app --reload
+uvicorn api_doc:app --reload
 
 
 | Parameter  | Tipe Data | Deskripsi                                                                                                                     | Rentang Nilai Valid        | Contoh Nilai |
