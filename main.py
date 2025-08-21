@@ -1,9 +1,9 @@
 # app_streamlit.py
-import streamlit as st
-import pandas as pd
-import joblib
+import streamlit as st # type: ignore
+import pandas as pd    # type: ignore
+import joblib          # type: ignore
 import os
-from pydantic import BaseModel, conint, confloat, ValidationError
+from pydantic import BaseModel, conint, confloat, ValidationError # type: ignore
 
 # ============================================================
 # KONFIGURASI
@@ -19,19 +19,19 @@ FEATURE_NAMES = [
 # MODEL INPUT (Sama dengan app.py)
 # ============================================================
 class HeartInput(BaseModel):
-    age: conint(ge=18, le=100)
-    sex: conint(ge=0, le=1)
-    cp: conint(ge=0, le=3)
-    trestbps: conint(ge=80, le=200)
-    chol: conint(ge=100, le=600)
-    fbs: conint(ge=0, le=1)
-    restecg: conint(ge=0, le=2)
-    thalch: conint(ge=60, le=220)
-    exang: conint(ge=0, le=1)
-    oldpeak: confloat(ge=0, le=6)
-    slope: conint(ge=0, le=2)
-    ca: conint(ge=0, le=4)
-    thal: conint(ge=0, le=3)
+    age: conint(ge=18, le=100)          # type: ignore
+    sex: conint(ge=0, le=1)             # type: ignore
+    cp: conint(ge=0, le=3)              # type: ignore
+    trestbps: conint(ge=80, le=200)     # type: ignore
+    chol: conint(ge=100, le=600)        # type: ignore
+    fbs: conint(ge=0, le=1)             # type: ignore
+    restecg: conint(ge=0, le=2)         # type: ignore
+    thalch: conint(ge=60, le=220)       # type: ignore
+    exang: conint(ge=0, le=1)           # type: ignore
+    oldpeak: confloat(ge=0, le=6)       # type: ignore
+    slope: conint(ge=0, le=2)           # type: ignore
+    ca: conint(ge=0, le=4)              # type: ignore
+    thal: conint(ge=0, le=3)            # type: ignore
 
 # ============================================================
 # LOAD MODEL
