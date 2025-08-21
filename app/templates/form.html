@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sistem Prediksi Penyakit Jantung</title>
+
+  <!-- Bootstrap & FontAwesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* Halaman */
+    body {
+      background-color: #EFEFEF;
+      min-height: 100vh;
+      padding: 1.5rem 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    /* Kartu utama */
+    .card {
+      border-radius: 1rem;
+      border: none;
+      box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .card-header {
+      background-color: #3F7D58;      /* header hijau sesuai permintaan */
+      color: white;
+      padding: 1rem 1.25rem;
+      font-weight: 700;
+      display:flex;
+      align-items:center;
+      gap:0.75rem;
+    }
+    .card-header .title-icon {
+      font-size: 1.45rem;
+    }
+
+    /* Disclaimer */
+    .disclaimer {
+      background-color: #fff9e6;
+      border-left: 4px solid #ffc107;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.4rem;
+      color: #6b4f00;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Label + input kecil minimalis */
+    .form-label {
+      font-weight: 600;
+      color: #334;
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+    .form-control, .form-select {
+      border-radius: 0.45rem;
+      padding: 0.35rem 0.6rem;
+      font-size: 0.9rem;
+      height: 36px;
+    }
+
+    /* small input group suffix */
+    .input-group-text {
+      background:#fff;
+      border-radius:0.45rem;
+      border:1px solid #e9ecef;
+      padding: 0.25rem 0.5rem;
+      font-size:0.85rem;
+    }
+
+    /* Tombol prediksi kecil hijau */
+    .btn-predict {
+      background-color: #3F7D58;
+      border: none;
+      color: #fff;
+      padding: 0.35rem 0.9rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 0.45rem;
+      height: 36px;
+      line-height: 1;
+    }
+    .btn-predict:hover { background-color: #35684A; }
+
+    /* Header section title */
+    .section-title {
+      color: #495057;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Make the form compact on small screens */
+    @media (max-width: 767px) {
+      .form-control, .form-select { height: 40px; }
+      .card-header { padding: 0.75rem 1rem; }
+    }
+
+    /* small helper */
+    .small-note { font-size:0.83rem; color:#6c757d; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-8 col-lg-9 col-md-10">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa-solid fa-hospital-user title-icon"></i>
+            <div>
+              <div style="font-size:0.95rem;">Sistem Informasi Manajemen Rumah Sakit</div>
+              <div style="font-size:0.78rem; opacity:0.9;">Modul: Prediksi Risiko Penyakit Jantung</div>
+            </div>
+          </div>
+
+          <div class="card-body p-3">
+            <div class="disclaimer">
+              <i class="fa-solid fa-triangle-exclamation me-2"></i>
+              aplikasi demo ini <b>tidak menyimpan data pasien.</b> Hasil bukan diagnosis medis.
+            </div>
+
+            <!-- FORM: gunakan route /predict-form (sesuai main.py Anda) -->
+            <form action="/predict-form" method="post" class="row g-2">
+              <!-- Section: Demografi -->
+              <div class="col-12">
+                <div class="section-title"><i class="fa-solid fa-user me-2"></i> Data Demografi</div>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="age">Usia (tahun)</label>
+                <input id="age" name="age" type="number" class="form-control" min="18" max="100" required placeholder="18">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="sex">Jenis Kelamin</label>
+                <select id="sex" name="sex" class="form-select" required>
+                  <option value="0">Perempuan</option>
+                  <option value="1">Laki-laki</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="cp">Jenis Nyeri Dada</label>
+                <select id="cp" name="cp" class="form-select" required>
+                  <option value="0">Typical Angina</option>
+                  <option value="1">Atypical Angina</option>
+                  <option value="2">Non-anginal Pain</option>
+                  <option value="3">Asymptomatic</option>
+                </select>
+              </div>
+
+              <!-- Section: Klinis utama (3 kolom) -->
+              <div class="col-12">
+                <div class="section-title"><i class="fa-solid fa-heart-pulse me-2"></i> Parameter Klinis Utama</div>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="trestbps">Tekanan Darah (mm Hg)</label>
+                <div class="input-group">
+                  <input id="trestbps" name="trestbps" type="number" class="form-control" min="80" max="200" required placeholder="120">
+                  <span class="input-group-text">mm Hg</span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="chol">Kolesterol (mg/dl)</label>
+                <div class="input-group">
+                  <input id="chol" name="chol" type="number" class="form-control" min="100" max="600" required placeholder="200">
+                  <span class="input-group-text">mg/dl</span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="thalch">Detak Jantung Maks.</label>
+                <div class="input-group">
+                  <input id="thalch" name="thalch" type="number" class="form-control" min="60" max="220" required placeholder="150">
+                  <span class="input-group-text">bpm</span>
+                </div>
+              </div>
+
+              <!-- Section: Parameter spesifik -->
+              <div class="col-12">
+                <div class="section-title"><i class="fa-solid fa-stethoscope me-2"></i> Parameter Spesifik</div>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="fbs">Gula Darah Puasa</label>
+                <select id="fbs" name="fbs" class="form-select" required>
+                  <option value="0">Tidak (≤120 mg/dl)</option>
+                  <option value="1">Ya (>120 mg/dl)</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="restecg">Hasil EKG</label>
+                <select id="restecg" name="restecg" class="form-select" required>
+                  <option value="0">Normal</option>
+                  <option value="1">ST-T abnormal</option>
+                  <option value="2">LV Hypertrophy</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="exang">Angina Saat Olahraga</label>
+                <select id="exang" name="exang" class="form-select" required>
+                  <option value="0">Tidak</option>
+                  <option value="1">Ya</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="oldpeak">Depresi ST</label>
+                <div class="input-group">
+                  <input id="oldpeak" name="oldpeak" step="0.1" type="number" class="form-control" min="0" max="6" required placeholder="0.0">
+                  <span class="input-group-text">mm</span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="slope">Slope Segmen ST</label>
+                <select id="slope" name="slope" class="form-select" required>
+                  <option value="0">Upsloping</option>
+                  <option value="1">Flat</option>
+                  <option value="2">Downsloping</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="ca">Jumlah Pembuluh Darah</label>
+                <select id="ca" name="ca" class="form-select" required>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label" for="thal">Thalassemia</label>
+                <select id="thal" name="thal" class="form-select" required>
+                  <option value="0">Normal</option>
+                  <option value="1">Fixed Defect</option>
+                  <option value="2">Reversible Defect</option>
+                  <option value="3">Tidak terdeteksi</option>
+                </select>
+              </div>
+
+              <!-- Submit: small centered -->
+              <div class="col-12 text-center mt-2">
+                <button type="submit" class="btn btn-predict">
+                  <i class="fa-solid fa-stethoscope me-1"></i> Prediksi
+                </button>
+                <div class="small-note mt-2">Heart Disease Enterprise System V1</div>
+              </div>
+            </form>
+
+            <div class="text-center mt-3">
+              <small class="text-muted">
+                <i class="fa-solid fa-shield-heart me-1"></i>
+                Model dilatih menggunakan dataset UCI Heart Disease (demo).
+              </small>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

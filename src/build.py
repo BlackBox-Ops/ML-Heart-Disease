@@ -11,8 +11,8 @@ from sklearn.metrics import ( # type: ignore
 )
 
 # === 1. Load Model Pipeline Terbaik (.joblib) ===
-best_model_path = os.path.join("../models", "svc_best_pipeline.joblib")  # ganti sesuai model pipeline terbaik
-best_overall_model_name = "SVC (Best Model - Pipeline)"
+best_model_path = os.path.join("../models", "logisticregression_best_pipeline.joblib")  # ganti sesuai model pipeline terbaik
+best_overall_model_name = "Logistic Regression (Best Model - Pipeline)"
 model = joblib.load(best_model_path)
 
 # === 2. Load Data Test (mentah) ===

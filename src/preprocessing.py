@@ -1,4 +1,4 @@
-import pandas as pd # type: ignore
+import pandas as pd  # type: ignore
 import numpy as np
 import os
 
@@ -6,7 +6,7 @@ import os
 from utils import preprocess_entire_datasheet
 
 # Sklearn Library 
-from sklearn.model_selection import train_test_split # type: ignore
+from sklearn.model_selection import train_test_split  # type: ignore
 
 # ---------------------------
 # 1. Load Dataset
@@ -28,7 +28,7 @@ df.replace("?", np.nan, inplace=True)
 
 # Kolom numerik & kategorikal
 numerical_cols = ["age", "trestbps", "chol", "thalch", "oldpeak"]
-categorical_cols = ["sex", "dataset", "cp", "fbs", "restecg", "exang", "slope", "ca", "thal"]
+categorical_cols = ["sex","cp", "fbs", "restecg", "exang", "slope", "ca", "thal"]
 
 # Konversi kolom numerik ke float
 for col in numerical_cols:
@@ -42,49 +42,51 @@ df.dropna(inplace=True)
 df.reset_index(drop=True, inplace=True)
 
 # ---------------------------
-# 3. Preprocessing
+# 3. Hapus fitur 'dataset' & 'id' jika ada
+# ---------------------------
+for col_to_remove in ["dataset", "id"]:
+    if col_to_remove in df.columns:
+        df.drop(columns=[col_to_remove], inplace=True)
+        print(f"Kolom '{col_to_remove}' dihapus dari dataset.")
+
+# Simpan versi cleaned dataset
+output_dir = "../data/processed"
+os.makedirs(output_dir, exist_ok=True)
+cleaned_path = os.path.join(output_dir, "heart_disease_uci_cleaned.csv")
+df.to_csv(cleaned_path, index=False)
+print(f"Dataset bersih disimpan di {cleaned_path}")
+
+# ---------------------------
+# 4. Preprocessing
 # ---------------------------
 X, y = preprocess_entire_datasheet(df, target_col="num")
 
 # ---------------------------
-# 4. Pisahkan X & y
+# 5. Pisahkan X & y
 # ---------------------------
 X = df.drop(columns=["num"])
 y = df["num"]
 
-# Hapus kolom 'id' jika ada
-if "id" in X.columns:
-    X.drop(columns=["id"], inplace=True)
-
-# Update daftar kolom
+# Update daftar kolom numerik & kategorikal sesuai dataset final
 numerical_cols = [col for col in numerical_cols if col in X.columns]
 categorical_cols = [col for col in categorical_cols if col in X.columns]
 
 # ---------------------------
-# 5. Split data
+# 6. Split data
 # ---------------------------
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
-    )
+)
 
-output_dir="../data/processed"
+# ---------------------------
+# 7. Save semua hasil
+# ---------------------------
+X.to_csv(os.path.join(output_dir, "X_processed.csv"), index=False)
+y.to_csv(os.path.join(output_dir, "y_processed.csv"), index=False)
 
-"""Simpan X dan y ke folder output_dir"""
-os.makedirs(output_dir, exist_ok=True)  # Buat folder jika belum ada
-
-X_path = os.path.join(output_dir, "X_processed.csv")
-y_path = os.path.join(output_dir, "y_processed.csv")
-
-X.to_csv(X_path, index=False)
-y.to_csv(y_path, index=False)
-
-# Simpan masing-masing
 X_train.to_csv(os.path.join(output_dir, "X_train.csv"), index=False)
 X_test.to_csv(os.path.join(output_dir, "X_test.csv"), index=False)
 y_train.to_csv(os.path.join(output_dir, "y_train.csv"), index=False)
 y_test.to_csv(os.path.join(output_dir, "y_test.csv"), index=False)
 
 print(f"Data split dan disimpan di {output_dir}")
-
-
-
