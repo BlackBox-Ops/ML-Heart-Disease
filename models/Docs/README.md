@@ -12,7 +12,7 @@ Proyek ini mengevaluasi 4 model klasifikasi:
 4. **Logistic Regression**
 
 
-#Tips:
+## Tips:
 1. Ganti nilai metrik dengan hasil aktual dari model Anda
 2. Tambahkan informasi lain seperti ROC-AUC jika diperlukan
 3. Jika ada visualisasi feature importance, bisa ditambahkan dalam bagian dokumentasi
