@@ -98,3 +98,12 @@ Gunakan script otomatis:
 ```bash
 ./run_model.sh
 ```
+
+### 6. Cara menjalankan model via docker
+```bash
+docker run -p 5000:5000 heart-app
+```
+
+### Note 
+untuk fitur profile pasien untuk saat ini masih coming soon 
+dan akan dilanjutkan dimasa mendatang 

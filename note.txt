@@ -5,6 +5,8 @@
  # cara menjalankan api 
 uvicorn api_doc:app --reload
 
+# cara menjalankan container docker 
+docker run -p 5000:5000 heart-app
 
 | Parameter  | Tipe Data | Deskripsi                                                                                                                     | Rentang Nilai Valid        | Contoh Nilai |
 | ---------- | --------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------ |
