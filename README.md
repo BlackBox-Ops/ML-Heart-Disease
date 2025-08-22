@@ -23,9 +23,9 @@ Struktur proyek dibuat modular agar mudah digunakan, dikembangkan, dan di-deploy
 | `main.py`          | Aplikasi **Streamlit** untuk visualisasi & interaksi.                     |
 | `run_model.sh`     | Shell script untuk menjalankan pipeline secara otomatis.                  |
 | `requirements.txt` | Daftar dependency Python yang diperlukan.                                 |
+| `docker-compose.yml` | Konfigurasi Docker Compose untuk menjalankan aplikasi dengan mudah.      |
 
 ---
-
 
 ## 🚀 Fitur Utama
 
@@ -68,23 +68,21 @@ Struktur proyek dibuat modular agar mudah digunakan, dikembangkan, dan di-deploy
 ```bash
 git clone <repo-url>
 cd heart-disease-prediction
+```
 
+### 2. Install Dependencies (Opsional, jika tidak pakai Docker)
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Install Dependencies
-```python
-pip install -r requirements.txt
-```
-
-### 3. Jalankan Streamlit App
-```python
+### 3. Jalankan Streamlit App (Opsional)
+```bash
 streamlit run main.py
 ```
 
-### 4. Jalankan Flask API
+### 4. Jalankan Flask API Secara Manual (Opsional)
 Masuk ke folder app/ lalu jalankan:
-```python
+```bash
 cd app
 python app.py
 ```
@@ -99,11 +97,28 @@ Gunakan script otomatis:
 ./run_model.sh
 ```
 
-### 6. Cara menjalankan model via docker
+---
+
+## 🐳 Jalankan dengan Docker Compose (Rekomendasi)
+
+Cara termudah untuk menjalankan aplikasi ini adalah menggunakan **Docker Compose**.  
+Pastikan Docker & Docker Compose sudah terinstall di sistem Anda.
+
 ```bash
-docker run -p 5000:5000 heart-app
+docker-compose up --build
 ```
 
+Aplikasi akan berjalan di [http://localhost:5000](http://localhost:5000)
+
+[![Docker Compose](https://img.shields.io/badge/docker--compose-ready-blue)](https://docs.docker.com/compose/)
+
+---
+
 ### Note 
-untuk fitur profile pasien untuk saat ini masih coming soon 
-dan akan dilanjutkan dimasa mendatang 
+Untuk fitur profile pasien untuk saat ini masih coming soon  
+dan akan dilanjutkan di masa mendatang.
+
+---
+
+**Kontribusi sangat terbuka!**  
+Silakan fork, buat pull request, atau diskusi di issues
