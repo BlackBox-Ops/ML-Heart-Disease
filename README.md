@@ -7,23 +7,25 @@ Struktur proyek dibuat modular agar mudah digunakan, dikembangkan, dan di-deploy
 
 ## 📂 Struktur Direktori
 
-├── app/ # Aplikasi web berbasis Flask untuk menjalankan model ML terapan
-├── data/ # Dataset untuk training & testing
-│ ├── raw/ # Data mentah
-│ ├── cleaned/ # Data yang sudah dibersihkan
-│ ├── train/ # Data latih siap pakai
-│ └── sample.json # Contoh input JSON untuk uji coba API
-├── img/ # Screenshot dokumentasi API & error code
-├── models/ # Model machine learning yang sudah dilatih (format joblib/pkl)
-├── note.txt # Catatan tambahan terkait eksperimen atau dokumentasi internal
-├── src/ # Kode Python utama (pipeline build & training model ML)
-├── test/ # Script testing model
-├── main.py # Aplikasi Streamlit untuk visualisasi & interaksi
-├── run_model.sh # Shell script untuk menjalankan pipeline secara otomatis
-├── requirements.txt # Dependency Python yang diperlukan
-
+| Path               | Deskripsi                                                                 |
+|--------------------|---------------------------------------------------------------------------|
+| `app/`             | Aplikasi web berbasis **Flask** untuk menjalankan model ML terapan.       |
+| `data/`            | Dataset untuk training & testing.                                         |
+| ├── `raw/`         | Data mentah.                                                              |
+| ├── `cleaned/`     | Data yang sudah dibersihkan.                                              |
+| ├── `train/`       | Data latih siap pakai.                                                    |
+| └── `sample.json`  | Contoh input JSON untuk uji coba API.                                     |
+| `img/`             | Screenshot dokumentasi API & contoh error code.                           |
+| `models/`          | Model machine learning yang sudah dilatih (`.joblib` / `.pkl`).           |
+| `note.txt`         | Catatan tambahan terkait eksperimen atau dokumentasi internal.            |
+| `src/`             | Kode Python utama (pipeline build & training model ML).                   |
+| `test/`            | Script testing model.                                                     |
+| `main.py`          | Aplikasi **Streamlit** untuk visualisasi & interaksi.                     |
+| `run_model.sh`     | Shell script untuk menjalankan pipeline secara otomatis.                  |
+| `requirements.txt` | Daftar dependency Python yang diperlukan.                                 |
 
 ---
+
 
 ## 🚀 Fitur Utama
 
