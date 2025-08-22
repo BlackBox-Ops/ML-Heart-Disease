@@ -75,14 +75,38 @@ python build.py
 ### 4. `preprocessing.py`
 - Fungsi: Proses awal data sebelum training.
 - Deskripsi: Melakukan pembersihan data (`cleaning`), transformasi, normalisasi, dan fitur engineering untuk meningkatkan performa model.
+- <b>Cara menggunakan</b>
+```python 
+# jika di luar direktori src cukup ketikan
+python src/preprocessing.py
+
+# tapi kalo misal berada di direktori src ketikan
+python preprocessing.py
+```
 
 ### 5. `test-model-joblib.py`
 - Fungsi: Menguji model yang sudah tersimpan dalam format `joblib`.
 - Deskripsi: Memastikan model yang telah disimpan tetap memberikan prediksi yang akurat sebelum digunakan dalam production atau API.
+- <b>Cara menggunakan</b>
+```python 
+# jika di luar direktori src cukup ketikan
+python src/test-model-joblib.py
+
+# tapi kalo misal berada di direktori src ketikan
+python test-model-joblib.py
+```
 
 ### 6. `training-v2.py`
 - Fungsi: Alternatif training model machine learning dengan Logistic Regression.
 - Deskripsi: Melatih model lebih cepat dibandingkan `train.py`, cocok untuk eksperimen atau deployment cepat.
+- <b>Cara menggunakan</b>
+```python 
+# jika di luar direktori src cukup ketikan
+python src/training-v2.py
+
+# tapi kalo misal berada di direktori src ketikan
+python training-v2.py
+```
 
 ### 7. `utils.py`
 - Fungsi: Fungsi bantu untuk preprocessing dan modul lainnya.
