@@ -1,0 +1,91 @@
+    /* Halaman */
+body {
+    background-color: #EFEFEF;
+    min-height: 100vh;
+    padding: 1.5rem 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Kartu utama */
+.card {
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+.card-header {
+    background-color: #3F7D58;      /* header hijau sesuai permintaan */
+    color: white;
+    padding: 1rem 1.25rem;
+    font-weight: 700;
+    display:flex;
+    align-items:center;
+    gap:0.75rem;
+}
+.card-header .title-icon {
+    font-size: 1.45rem;
+}
+
+/* Disclaimer */
+.disclaimer {
+    background-color: #fff9e6;
+    border-left: 4px solid #ffc107;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.4rem;
+    color: #6b4f00;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Label + input kecil minimalis */
+.form-label {
+    font-weight: 600;
+    color: #334;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+.form-control, .form-select {
+    border-radius: 0.45rem;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.9rem;
+    height: 36px;
+}
+
+/* small input group suffix */
+.input-group-text {
+    background:#fff;
+    border-radius:0.45rem;
+    border:1px solid #e9ecef;
+    padding: 0.25rem 0.5rem;
+    font-size:0.85rem;
+}
+
+/* Tombol prediksi kecil hijau */
+.btn-predict {
+    background-color: #3F7D58;
+    border: none;
+    color: #fff;
+    padding: 0.35rem 0.9rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: 0.45rem;
+    height: 36px;
+    line-height: 1;
+}
+.btn-predict:hover { background-color: #35684A; }
+/* Header section title */
+.section-title {
+    color: #495057;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Make the form compact on small screens */
+@media (max-width: 767px) {
+    .form-control, .form-select { height: 40px; }
+    .card-header { padding: 0.75rem 1rem; }
+}
+
+/* small helper */
+    .small-note { font-size:0.83rem; color:#6c757d; }
