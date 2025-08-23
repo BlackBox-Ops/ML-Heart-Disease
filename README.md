@@ -105,7 +105,11 @@ Cara termudah untuk menjalankan aplikasi ini adalah menggunakan **Docker Compose
 Pastikan Docker & Docker Compose sudah terinstall di sistem Anda.
 
 ```bash
-docker-compose up --build
+# mengatifkan docker
+docker-compose up 
+
+# mematikan docker 
+docker-compose down 
 ```
 
 Aplikasi akan berjalan di [http://localhost:5000](http://localhost:5000)
